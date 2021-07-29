@@ -11,24 +11,41 @@ namespace Accounting.dbSource
 {
     public class AccountingManager
     {
-        public static string Getconnectionstring()
-        {
-            string val = ConfigurationManager.ConnectionStrings["Default Connection"].ConnectionString;
-            return val;
-        }
+        //public static string Getconnectionstring()
+        //{
+        //    string val = ConfigurationManager.ConnectionStrings["Default Connection"].ConnectionString;
+        //    return val;
+        //}
         public static DataTable GetAccountingList(string userid)
         {
-            string connectionstring = Getconnectionstring();
+            string connectionstring = dbHelper.Getconnectionstring();
             string dbCommandstring = @"SELECT [ID], [Caption], [Amount],
                                               [ActType], [CreateDate]
                                        FROM   [Accouting]
                                        WHERE  [UserID] = @userid";
 
+            List<SqlParameter> list = new List<SqlParameter>();
+            list.Add(new SqlParameter("@userid", userid));
+
+            try
+            {
+                return dbHelper.ReadDataTable(connectionstring, dbCommandstring, list);
+            }
+            catch (Exception ex)
+            {
+                Logger.Writelog(ex);
+                return null;
+            }
+
+        }
+
+        private static DataTable ReadDataTable(string connectionstring, string dbCommandstring, List<SqlParameter> list)
+        {
             using (SqlConnection connection = new SqlConnection(connectionstring))
             {
                 using (SqlCommand command = new SqlCommand(dbCommandstring, connection))
                 {
-                    command.Parameters.AddWithValue("@userid", userid);
+                    command.Parameters.AddRange(list.ToArray());
 
                     try
                     {
@@ -49,6 +66,7 @@ namespace Accounting.dbSource
                 }
             }
         }
+
         public static void CreateAccounting(string userid, string caption, int amount, int actType, string body)
         {
             if (amount < 0 || amount > 1000000)
@@ -56,7 +74,7 @@ namespace Accounting.dbSource
             if (actType != 0 && actType != 1)
                 throw new ArgumentException("ActType must be 0 or 1.");
 
-            string connectionstring = Getconnectionstring();
+            string connectionstring = dbHelper.Getconnectionstring();
             string dbCommandstring = @"INSERT INTO [Accouting]
                                                   ([UserID], [Caption], [Amount],
                                                    [ActType], [CreateDate], [Body])
@@ -92,7 +110,7 @@ namespace Accounting.dbSource
             if (!(actType == 0 || actType == 1))
                 throw new ArgumentException("ActType must be 0 or 1.");
 
-            string connectionstring = Getconnectionstring();
+            string connectionstring = dbHelper.Getconnectionstring();
             string dbCommandstring = @"UPDATE [Accouting]
                                        SET    [UserID] = @userid,
                                               [Caption] = @caption,
@@ -134,7 +152,7 @@ namespace Accounting.dbSource
         }
         public static DataRow GetAccounting(int id, string userid)
         {
-            string connectionstring = Getconnectionstring();
+            string connectionstring = dbHelper.Getconnectionstring();
             string dbCommandstring = @"SELECT [ID], [Caption], [Amount],
                                               [ActType], [CreateDate], [Body]
                                        FROM   [Accouting]
@@ -173,7 +191,7 @@ namespace Accounting.dbSource
         }
         public static void DeleteAccounting(int id)
         {
-            string connectionstring = Getconnectionstring();
+            string connectionstring = dbHelper.Getconnectionstring();
             string dbCommandstring = @"DELETE [Accouting]
                                        WHERE  [ID] = @id";
 

@@ -11,14 +11,14 @@ namespace Accounting.dbSource
 {
     public class UserInfoManager
     {
-        public static string Getconnectionstring()
-        {
-            string val = ConfigurationManager.ConnectionStrings["Default Connection"].ConnectionString;
-            return val;
-        }
+        //public static string dbHelperGetconnectionstring()
+        //{
+        //    string val = ConfigurationManager.ConnectionStrings["Default Connection"].ConnectionString;
+        //    return val;
+        //}
         public static DataRow GetUserInfoListbyAccount(string account)
         {
-            string connectionstring = Getconnectionstring();
+            string connectionstring = dbHelper.Getconnectionstring();
             string dbCommandstring = @"SELECT [ID], [Account], [PWD],
                                               [Name], [Email]
                                        FROM   [UserInfo]
