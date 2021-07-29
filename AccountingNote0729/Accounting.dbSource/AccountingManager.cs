@@ -38,35 +38,6 @@ namespace Accounting.dbSource
             }
 
         }
-
-        private static DataTable ReadDataTable(string connectionstring, string dbCommandstring, List<SqlParameter> list)
-        {
-            using (SqlConnection connection = new SqlConnection(connectionstring))
-            {
-                using (SqlCommand command = new SqlCommand(dbCommandstring, connection))
-                {
-                    command.Parameters.AddRange(list.ToArray());
-
-                    try
-                    {
-                        connection.Open();
-                        SqlDataReader reader = command.ExecuteReader();
-
-                        DataTable dt = new DataTable();
-                        dt.Load(reader);
-                        reader.Close();
-
-                        return dt;
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.Writelog(ex);
-                        return null;
-                    }
-                }
-            }
-        }
-
         public static void CreateAccounting(string userid, string caption, int amount, int actType, string body)
         {
             if (amount < 0 || amount > 1000000)

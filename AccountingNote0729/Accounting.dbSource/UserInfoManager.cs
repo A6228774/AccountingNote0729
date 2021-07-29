@@ -24,32 +24,17 @@ namespace Accounting.dbSource
                                        FROM   [UserInfo]
                                        WHERE  [Account] = @account";
 
-            using (SqlConnection connection = new SqlConnection(connectionstring))
+            List<SqlParameter> list = new List<SqlParameter>();
+            list.Add(new SqlParameter("@account", account));
+
+            try
             {
-                using (SqlCommand command = new SqlCommand(dbCommandstring, connection))
-                {
-                    command.Parameters.AddWithValue("@account", account);
-                    try
-                    {
-                        connection.Open();
-                        SqlDataReader reader = command.ExecuteReader();
-
-                        DataTable dt = new DataTable();
-                        dt.Load(reader);
-                        reader.Close();
-
-                        if (dt.Rows.Count == 0)
-                            return null;
-                        DataRow dr = dt.Rows[0];
-                        return dr;
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.Writelog(ex);
-                        Console.WriteLine(ex.Message);
-                        return null;
-                    }
-                }
+                return dbHelper.ReadDataRow(connectionstring, dbCommandstring, list);
+            }
+            catch (Exception ex)
+            {
+                Logger.Writelog(ex);
+                return null;
             }
         }
     }

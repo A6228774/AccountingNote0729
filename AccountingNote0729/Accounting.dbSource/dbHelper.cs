@@ -24,18 +24,39 @@ namespace Accounting.dbSource
                 {
                     command.Parameters.AddRange(list.ToArray());
 
-                        connection.Open();
-                        SqlDataReader reader = command.ExecuteReader();
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
 
-                        DataTable dt = new DataTable();
-                        dt.Load(reader);
-                        reader.Close();
+                    DataTable dt = new DataTable();
+                    dt.Load(reader);
+                    reader.Close();
 
-                        return dt;
+                    return dt;
                 }
             }
         }
+        public static DataRow ReadDataRow(string connectionstring, string dbCommandstring, List<SqlParameter> list)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionstring))
+            {
+                using (SqlCommand command = new SqlCommand(dbCommandstring, connection))
+                {
+                    command.Parameters.AddRange(list.ToArray());
 
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    DataTable dt = new DataTable();
+                    dt.Load(reader);
+                    reader.Close();
+
+                    if (dt.Rows.Count == 0)
+                        return null;
+                    DataRow dr = dt.Rows[0];
+                    return dr;
+                }
+            }
+        }
 
     }
 }
