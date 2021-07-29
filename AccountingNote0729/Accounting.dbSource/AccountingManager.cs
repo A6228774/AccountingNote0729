@@ -129,35 +129,18 @@ namespace Accounting.dbSource
                                        FROM   [Accouting]
                                        WHERE  [ID] = @id AND [UserID] = @userid";
 
-            using (SqlConnection connection = new SqlConnection(connectionstring))
+            List<SqlParameter> list = new List<SqlParameter>();
+            list.Add(new SqlParameter("@id", id));
+            list.Add(new SqlParameter("@userid", userid));
+
+            try
             {
-                using (SqlCommand command = new SqlCommand(dbCommandstring, connection))
-                {
-                    command.Parameters.AddWithValue("@id", id);
-                    command.Parameters.AddWithValue("@userid", userid);
-
-                    try
-                    {
-                        connection.Open();
-                        SqlDataReader reader = command.ExecuteReader();
-
-                        DataTable dt = new DataTable();
-                        dt.Load(reader);
-                        reader.Close();
-
-                        if (dt.Rows.Count == 0)
-                            return null;
-                        DataRow dr = dt.Rows[0];
-                        return dr;
-
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.Writelog(ex);
-                        return null;
-                    }
-                }
-
+                return dbHelper.ReadDataRow(connectionstring, dbCommandstring, list);
+            }
+            catch (Exception ex)
+            {
+                Logger.Writelog(ex);
+                return null;
             }
         }
         public static void DeleteAccounting(int id)
