@@ -57,6 +57,32 @@ namespace Accounting.dbSource
                 }
             }
         }
+        public static int ModifyData(string connectionstring, string dbCommandstring, List<SqlParameter> list)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionstring))
+            {
+                using (SqlCommand command = new SqlCommand(dbCommandstring, connection))
+                {
+                    command.Parameters.AddRange(list.ToArray());
 
+                    connection.Open();
+                    int effectRowsCnt = command.ExecuteNonQuery();
+                    return effectRowsCnt;
+                }
+            }
+        }
+        public static void CreateData(string connectionstring, string dbCommandstring, List<SqlParameter> list)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionstring))
+            {
+                using (SqlCommand command = new SqlCommand(dbCommandstring, connection))
+                {
+                    command.Parameters.AddRange(list.ToArray());
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

@@ -11,11 +11,6 @@ namespace Accounting.dbSource
 {
     public class AccountingManager
     {
-        //public static string Getconnectionstring()
-        //{
-        //    string val = ConfigurationManager.ConnectionStrings["Default Connection"].ConnectionString;
-        //    return val;
-        //}
         public static DataTable GetAccountingList(string userid)
         {
             string connectionstring = dbHelper.Getconnectionstring();
@@ -52,20 +47,22 @@ namespace Accounting.dbSource
                                        VALUES     (@userid, @caption, @amount,
                                                    @actType, @date, @body)";
 
+            List<SqlParameter> list = new List<SqlParameter>();
+            list.Add(new SqlParameter("@userid", userid));
+            list.Add(new SqlParameter("@userid", userid));
+            list.Add(new SqlParameter("@caption", caption));
+            list.Add(new SqlParameter("@amount", amount));
+            list.Add(new SqlParameter("@actType", actType));
+            list.Add(new SqlParameter("@date", DateTime.Today));
+
+
             using (SqlConnection connection = new SqlConnection(connectionstring))
             {
                 using (SqlCommand command = new SqlCommand(dbCommandstring, connection))
                 {
-                    command.Parameters.AddWithValue("@userid", userid);
-                    command.Parameters.AddWithValue("@caption", caption);
-                    command.Parameters.AddWithValue("@amount", amount);
-                    command.Parameters.AddWithValue("@actType", actType);
-                    command.Parameters.AddWithValue("@date", DateTime.Today);
-                    command.Parameters.AddWithValue("@body", body);
                     try
                     {
-                        connection.Open();
-                        command.ExecuteNonQuery();
+                        dbHelper.CreateData(connectionstring, dbCommandstring, list);
                     }
                     catch (Exception ex)
                     {
@@ -91,24 +88,20 @@ namespace Accounting.dbSource
                                               [Body] = @body
                                        WHERE  [ID] = @id";
 
-            using (SqlConnection connection = new SqlConnection(connectionstring))
-            {
-                using (SqlCommand command = new SqlCommand(dbCommandstring, connection))
-                {
-                    command.Parameters.AddWithValue("@userid", userid);
-                    command.Parameters.AddWithValue("@caption", caption);
-                    command.Parameters.AddWithValue("@amount", amount);
-                    command.Parameters.AddWithValue("@actType", actType);
-                    command.Parameters.AddWithValue("@date", DateTime.Today);
-                    command.Parameters.AddWithValue("@body", body);
-                    command.Parameters.AddWithValue("@id", id);
-
+            List<SqlParameter> list = new List<SqlParameter>();
+            list.Add(new SqlParameter("@id", id));
+            list.Add(new SqlParameter("@userid", userid));
+            list.Add(new SqlParameter("@caption", caption));
+            list.Add(new SqlParameter("@amount", amount));
+            list.Add(new SqlParameter("@actType", actType));
+            list.Add(new SqlParameter("@date", DateTime.Today));
+            list.Add(new SqlParameter("@body", body));
+            
                     try
                     {
-                        connection.Open();
-                        int effectRows = command.ExecuteNonQuery();
+                        int effectRowsCnt = dbHelper.ModifyData(connectionstring, dbCommandstring, list);
 
-                        if (effectRows == 1)
+                        if (effectRowsCnt == 1)
                             return true;
                         else
                             return false;
@@ -118,8 +111,6 @@ namespace Accounting.dbSource
                         Logger.Writelog(ex);
                         return false;
                     }
-                }
-            }
         }
         public static DataRow GetAccounting(int id, string userid)
         {
@@ -149,23 +140,16 @@ namespace Accounting.dbSource
             string dbCommandstring = @"DELETE [Accouting]
                                        WHERE  [ID] = @id";
 
-            using (SqlConnection connection = new SqlConnection(connectionstring))
+            List<SqlParameter> list = new List<SqlParameter>();
+            list.Add(new SqlParameter("@id", id));
+
+            try
             {
-                using (SqlCommand command = new SqlCommand(dbCommandstring, connection))
-                {
-                    command.Parameters.AddWithValue("@id", id);
-
-                    try
-                    {
-                        connection.Open();
-                        command.ExecuteReader();
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.Writelog(ex);
-                    }
-                }
-
+                int effectRowsCnt = dbHelper.ModifyData(connectionstring, dbCommandstring, list);
+            }
+            catch (Exception ex)
+            {
+                Logger.Writelog(ex);
             }
         }
     }
