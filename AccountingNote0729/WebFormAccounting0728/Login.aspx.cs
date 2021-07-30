@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Accounting.dbSource;
+using AccountingNote.Auth;
 
 namespace WebFormAccounting0728
 {
@@ -31,32 +32,15 @@ namespace WebFormAccounting0728
 
             string inp_Account = this.txtAccount.Text;
             string inp_PWD = this.txtPWD.Text;
+            string errorMsg;
 
-            if (string.IsNullOrWhiteSpace(inp_Account) || string.IsNullOrWhiteSpace(inp_PWD))
+            if (!AuthManager.tryLogin(inp_Account, inp_PWD, out errorMsg))
             {
-                this.LiteralMsg.Text = "Account / Password is needed.";
+                this.LiteralMsg.Text = errorMsg;
                 return;
-            }
-
-            var dr = UserInfoManager.GetUserInfoListbyAccount(this.txtAccount.Text);
-
-            if (dr == null)
-            {
-                this.LiteralMsg.Text = "Account is not exist.";
-                return;
-            }
-
-            if (string.Compare(dr["Account"].ToString(), this.txtAccount.Text) == 0 &&
-                string.Compare(dr["PWD"].ToString(), this.txtPWD.Text) ==0)
-            {
-                this.Session["UserLoginInfo"] = dr["Account"].ToString();
-                Response.Redirect("./SystemAdmin/UserInfo.aspx");
             }
             else
-            {
-                this.LiteralMsg.Text = "Login Fail.Please check Account / Password.";
-                return;
-            }
+                Response.Redirect("./SystemAdmin/UserInfo.aspx");
         }
     }
 }

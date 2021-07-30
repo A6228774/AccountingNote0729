@@ -46,5 +46,34 @@ namespace AccountingNote.Auth
         {
             HttpContext.Current.Session["UserLoginInfo"] = null;
         }
+        public static bool tryLogin(string account, string pwd, out string errorMsg)
+        {
+            if (string.IsNullOrWhiteSpace(account) || string.IsNullOrWhiteSpace(pwd))
+            {
+                errorMsg = "Account / Password is needed.";
+                return false;
+            }
+
+            var dr = UserInfoManager.GetUserInfoListbyAccount(account);
+
+            if (dr == null)
+            {
+                errorMsg = "Account is not exist.";
+                return false;
+            }
+
+            if (string.Compare(dr["Account"].ToString(), account) == 0 &&
+                string.Compare(dr["PWD"].ToString(), pwd) == 0)
+            {
+                HttpContext.Current.Session["UserLoginInfo"] = dr["Account"].ToString();
+                errorMsg = string.Empty;
+                return true;
+            }
+            else
+            {
+                errorMsg = "Login Fail.Please check Account / Password.";
+                return false;
+            }
+        }
     }
 }
