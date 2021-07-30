@@ -11,7 +11,12 @@ namespace Accounting.dbSource
         public static void Writelog (Exception ex)
         {
             string msg = DateTime.Now.ToString("G") + ex.ToString();
-            System.IO.File.AppendAllText("D:\\Practice\\Webform0729\\Log.log" ,msg);
+            string logpath = "D:\\Practice\\Webform0729\\Log.log";
+
+            if (!System.IO.File.Exists(logpath))
+                System.IO.File.Create(logpath);
+
+            System.IO.File.AppendAllText(logpath ,msg);
 
             throw ex;
         }

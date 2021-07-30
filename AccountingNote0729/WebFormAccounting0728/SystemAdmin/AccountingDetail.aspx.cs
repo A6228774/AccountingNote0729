@@ -1,4 +1,5 @@
 ﻿using Accounting.dbSource;
+using AccountingNote.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace WebFormAccounting0728.SysteimAdmin
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (this.Session["UserLoginInfo"] == null)
+            if (!AuthManager.Islogined())
             {
                 Response.Redirect("/Login.aspx");
                 return;

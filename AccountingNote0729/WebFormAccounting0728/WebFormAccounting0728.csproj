@@ -142,6 +142,10 @@
       <Project>{dd0d1111-7fcb-4bd5-974d-c460becdb6b3}</Project>
       <Name>Accounting.dbSource</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AccountingNote.Auth\AccountingNote.Auth.csproj">
+      <Project>{350eb41f-696c-46af-b2ed-fe5bf0aacb61}</Project>
+      <Name>AccountingNote.Auth</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

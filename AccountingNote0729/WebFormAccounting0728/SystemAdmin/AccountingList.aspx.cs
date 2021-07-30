@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Accounting.dbSource;
+using AccountingNote.Auth;
 
 namespace WebFormAccounting0728.SysteimAdmin
 {
@@ -13,7 +14,7 @@ namespace WebFormAccounting0728.SysteimAdmin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (this.Session["UserLoginInfo"] == null)
+            if (!AuthManager.Islogined())
             {
                 Response.Redirect("/Login.aspx");
                 return;
