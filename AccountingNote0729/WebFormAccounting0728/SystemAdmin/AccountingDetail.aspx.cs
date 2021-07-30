@@ -21,10 +21,9 @@ namespace WebFormAccounting0728.SysteimAdmin
                 return;
             }
 
-            string account = this.Session["UserLoginInfo"] as string;
-            var dr = UserInfoManager.GetUserInfoListbyAccount(account);
+            var currentUser = AuthManager.GetCurrentUser();
 
-            if (dr == null)
+            if (currentUser == null)
             {
                 Response.Redirect("/Login.aspx");
                 return;
@@ -43,7 +42,7 @@ namespace WebFormAccounting0728.SysteimAdmin
 
                     if (int.TryParse(idtxt, out id))
                     {
-                        var drAccounting = AccountingManager.GetAccounting(id, dr["ID"].ToString());
+                        var drAccounting = AccountingManager.GetAccounting(id, currentUser.ID);
 
                         if (drAccounting == null)
                         {
@@ -79,10 +78,9 @@ namespace WebFormAccounting0728.SysteimAdmin
             else
             { this.LitMsg.Visible = false; }
 
-            string account = this.Session["UserLoginInfo"] as string;
-            var dr = UserInfoManager.GetUserInfoListbyAccount(account);
+            var currentUser = AuthManager.GetCurrentUser();
 
-            string userid = dr["ID"].ToString();
+            string userid = currentUser.ID;
             string txtacttype = this.ddlActType.SelectedValue;
             string txtamount = this.txtAmount.Text;
             string caption = this.txtCaption.Text;

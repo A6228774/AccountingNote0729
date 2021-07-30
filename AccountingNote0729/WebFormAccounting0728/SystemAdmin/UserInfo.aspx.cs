@@ -20,24 +20,22 @@ namespace WebFormAccounting0728.SysteimAdmin
                 return;
             }
 
-            string account = this.Session["UserLoginInfo"] as string;
-            DataRow dr = UserInfoManager.GetUserInfoListbyAccount(account);
+            var currentUser = AuthManager.GetCurrentUser();
 
-            if (dr == null)
+            if (currentUser == null)
             {
-                this.Session["UserLoginInfo"] = null;
                 Response.Redirect("/Login.aspx");
                 return;
             }
 
-            this.LitAccount.Text = dr["Account"].ToString();
-            this.LitName.Text = dr["Name"].ToString();
-            this.LitEmail.Text = dr["Email"].ToString();
+            this.LitAccount.Text = currentUser.Account;
+            this.LitName.Text = currentUser.Name;
+            this.LitEmail.Text = currentUser.Email;
         }
 
         protected void Logoutbtn_Click(object sender, EventArgs e)
         {
-            this.Session["UserLoginInfo"] = null;
+            AuthManager.Logout();
             Response.Redirect("/Login.aspx");
         }
     }

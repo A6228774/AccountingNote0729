@@ -20,16 +20,15 @@ namespace WebFormAccounting0728.SysteimAdmin
                 return;
             }
 
-            string account = this.Session["UserLoginInfo"] as string;
-            var dr = UserInfoManager.GetUserInfoListbyAccount(account);
+            var currentUser = AuthManager.GetCurrentUser();
 
-            if (dr == null)
+            if (currentUser == null)
             {
                 Response.Redirect("/Login.aspx");
                 return;
             }
 
-            var dt = AccountingManager.GetAccountingList(dr["ID"].ToString());
+            var dt = AccountingManager.GetAccountingList(currentUser.ID);
 
             if (dt.Rows.Count > 0)
             {
