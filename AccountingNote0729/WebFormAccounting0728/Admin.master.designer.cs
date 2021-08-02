@@ -7,12 +7,21 @@
 // </自動產生的>
 //------------------------------------------------------------------------------
 
-namespace WebFormAccounting0728.SysteimAdmin
+namespace WebFormAccounting0728
 {
 
 
-    public partial class AccountingList
+    public partial class Main
     {
+
+        /// <summary>
+        /// head 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder head;
 
         /// <summary>
         /// form1 控制項。
@@ -24,48 +33,21 @@ namespace WebFormAccounting0728.SysteimAdmin
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// Createbtn 控制項。
+        /// ContentPlaceHolder1 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Createbtn;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder1;
 
         /// <summary>
-        /// GV_AccountingList 控制項。
+        /// GridView1 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView GV_AccountingList;
-
-        /// <summary>
-        /// ltlMsg 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal ltlMsg;
-
-        /// <summary>
-        /// ucPager 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::WebFormAccounting0728.ucPager ucPager;
-
-        /// <summary>
-        /// plc_nodata 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder plc_nodata;
+        protected global::System.Web.UI.WebControls.GridView GridView1;
     }
 }

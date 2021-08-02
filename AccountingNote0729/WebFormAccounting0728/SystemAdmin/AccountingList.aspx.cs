@@ -32,8 +32,13 @@ namespace WebFormAccounting0728.SysteimAdmin
 
             if (dt.Rows.Count > 0)
             {
-                this.GV_AccountingList.DataSource = dt;
+                var dtPaged = this.GetPagedDataTable(dt);
+
+                this.GV_AccountingList.DataSource = dtPaged;
                 this.GV_AccountingList.DataBind();
+
+                this.ucPager.TotalSize = dt.Rows.Count;
+                this.ucPager.Bind();
             }
             else            
             {
@@ -46,7 +51,6 @@ namespace WebFormAccounting0728.SysteimAdmin
         {
             Response.Redirect("/SystemAdmin/AccountingDetail.aspx");
         }
-
         protected void GV_AccountingList_RowDataBound(object sender, GridViewRowEventArgs e)
         {
 
@@ -64,6 +68,46 @@ namespace WebFormAccounting0728.SysteimAdmin
                 else
                     ltl.Text = "Income";
             }
+        }
+        private int GetcurrentPage()
+        {
+            string txtpage = Request.QueryString["Page"];
+
+            if (string.IsNullOrWhiteSpace(txtpage))
+                return 1;
+
+            int intPage;
+            if (!int.TryParse(txtpage, out intPage))
+                return 1;
+
+            if (intPage <= 0)
+                return 1;
+
+            return intPage;
+        }
+        private DataTable GetPagedDataTable(DataTable dt)
+        {
+            DataTable dtPaged = dt.Clone();
+
+            int startindex = (this.GetcurrentPage() - 1) * 10;
+            int endindex = (this.GetcurrentPage()) * 10;
+
+            if (endindex > dt.Rows.Count)
+                endindex = dt.Rows.Count;
+
+            for (var i= startindex; i < endindex; i++ )
+            {
+                DataRow dr = dt.Rows[i];
+                var drNew = dtPaged.NewRow();
+
+                foreach (DataColumn dc in dt.Columns)
+                {
+                    drNew[dc.ColumnName] = dr[dc];
+                }
+
+                dtPaged.Rows.Add(drNew);
+            }
+            return dtPaged;
         }
     }
 }

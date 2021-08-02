@@ -49,12 +49,11 @@ namespace Accounting.dbSource
 
             List<SqlParameter> list = new List<SqlParameter>();
             list.Add(new SqlParameter("@userid", userid));
-            list.Add(new SqlParameter("@userid", userid));
             list.Add(new SqlParameter("@caption", caption));
             list.Add(new SqlParameter("@amount", amount));
             list.Add(new SqlParameter("@actType", actType));
             list.Add(new SqlParameter("@date", DateTime.Today));
-
+            list.Add(new SqlParameter("@body", body));
 
             using (SqlConnection connection = new SqlConnection(connectionstring))
             {
