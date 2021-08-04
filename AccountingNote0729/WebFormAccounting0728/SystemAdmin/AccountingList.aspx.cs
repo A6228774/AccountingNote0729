@@ -37,8 +37,8 @@ namespace WebFormAccounting0728.SysteimAdmin
                 this.GV_AccountingList.DataSource = dtPaged;
                 this.GV_AccountingList.DataBind();
 
-                this.ucPager.TotalSize = dt.Rows.Count;
-                this.ucPager.Bind();
+                this.ucPager2.TotalSize = dt.Rows.Count;
+                this.ucPager2.Bind();
             }
             else            
             {

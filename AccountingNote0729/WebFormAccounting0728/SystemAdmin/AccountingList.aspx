@@ -1,6 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="AccountingList.aspx.cs" Inherits="WebFormAccounting0728.SysteimAdmin.AccountingList" %>
 
-<%@ Register Src="~/UserControl/ucPager.ascx" TagPrefix="uc1" TagName="ucPager" %>
+<%@ Register Src="~/UserControl/ucPager2.ascx" TagPrefix="uc1" TagName="ucPager2" %>
+
 
 
 <!DOCTYPE html>
@@ -43,7 +44,7 @@
                     </asp:GridView>
 
                     <asp:Literal runat="server" ID="ltlMsg"></asp:Literal>
-                    <uc1:ucPager runat="server" ID="ucPager" Url="AccountingList.aspx" PageSize="10"/>
+                    <uc1:ucPager2 runat="server" id="ucPager2" Url="/SystemAdmin/AccountingList.aspx" PageSize="10"/>
 
                     <asp:PlaceHolder ID="plc_nodata" runat="server" Visible="False">
                         <p style="color:crimson">No Data in your Accounting Note.</p>

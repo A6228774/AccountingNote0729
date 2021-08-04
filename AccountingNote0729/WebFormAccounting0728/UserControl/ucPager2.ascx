@@ -10,4 +10,6 @@
     <a runat="server" id="a5" href="#">5</a>
 
     <a runat="server" id="aLast" href="#">Last</a>
+
+    <asp:Literal ID="Literal1" runat="server"></asp:Literal>
 </div>
