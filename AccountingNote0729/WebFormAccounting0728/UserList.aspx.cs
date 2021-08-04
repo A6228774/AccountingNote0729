@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 
 namespace WebFormAccounting0728
 {
-    public partial class _0802 : System.Web.UI.Page
+    public partial class UserList : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

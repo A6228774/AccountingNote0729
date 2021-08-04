@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="UserControl\ucPager.ascx" />
+    <Content Include="UserControl\ucPager2.ascx" />
     <Content Include="UserList.aspx" />
     <Content Include="About.aspx" />
     <Content Include="Default.aspx" />
@@ -85,6 +86,13 @@
     </Compile>
     <Compile Include="UserControl\ucPager.ascx.designer.cs">
       <DependentUpon>ucPager.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\ucPager2.ascx.cs">
+      <DependentUpon>ucPager2.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserControl\ucPager2.ascx.designer.cs">
+      <DependentUpon>ucPager2.ascx</DependentUpon>
     </Compile>
     <Compile Include="UserList.aspx.cs">
       <DependentUpon>UserList.aspx</DependentUpon>
@@ -117,11 +125,11 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Admin.master.cs">
+    <Compile Include="SystemAdmin\Admin.master.cs">
       <DependentUpon>Admin.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Admin.master.designer.cs">
+    <Compile Include="SystemAdmin\Admin.master.designer.cs">
       <DependentUpon>Admin.master</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -148,7 +156,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Admin.master" />
+    <Content Include="SystemAdmin\Admin.master" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

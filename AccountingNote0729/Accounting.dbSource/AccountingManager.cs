@@ -16,7 +16,7 @@ namespace Accounting.dbSource
             string connectionstring = dbHelper.Getconnectionstring();
             string dbCommandstring = @"SELECT [ID], [Caption], [Amount],
                                               [ActType], [CreateDate]
-                                       FROM   [Accouting]
+                                       FROM   [Accounting]
                                        WHERE  [UserID] = @userid";
 
             List<SqlParameter> list = new List<SqlParameter>();
@@ -41,7 +41,7 @@ namespace Accounting.dbSource
                 throw new ArgumentException("ActType must be 0 or 1.");
 
             string connectionstring = dbHelper.Getconnectionstring();
-            string dbCommandstring = @"INSERT INTO [Accouting]
+            string dbCommandstring = @"INSERT INTO [Accounting]
                                                   ([UserID], [Caption], [Amount],
                                                    [ActType], [CreateDate], [Body])
                                        VALUES     (@userid, @caption, @amount,
@@ -78,7 +78,7 @@ namespace Accounting.dbSource
                 throw new ArgumentException("ActType must be 0 or 1.");
 
             string connectionstring = dbHelper.Getconnectionstring();
-            string dbCommandstring = @"UPDATE [Accouting]
+            string dbCommandstring = @"UPDATE [Accounting]
                                        SET    [UserID] = @userid,
                                               [Caption] = @caption,
                                               [Amount] = @amount,
@@ -116,7 +116,7 @@ namespace Accounting.dbSource
             string connectionstring = dbHelper.Getconnectionstring();
             string dbCommandstring = @"SELECT [ID], [Caption], [Amount],
                                               [ActType], [CreateDate], [Body]
-                                       FROM   [Accouting]
+                                       FROM   [Accounting]
                                        WHERE  [ID] = @id AND [UserID] = @userid";
 
             List<SqlParameter> list = new List<SqlParameter>();
@@ -136,7 +136,7 @@ namespace Accounting.dbSource
         public static void DeleteAccounting(int id)
         {
             string connectionstring = dbHelper.Getconnectionstring();
-            string dbCommandstring = @"DELETE [Accouting]
+            string dbCommandstring = @"DELETE [Accounting]
                                        WHERE  [ID] = @id";
 
             List<SqlParameter> list = new List<SqlParameter>();
