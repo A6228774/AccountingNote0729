@@ -29,6 +29,33 @@ namespace WebFormAccounting0728.UserControl
 
             this.aFirst.HRef = $"{this.Url}?page=1";
             this.aLast.HRef = $"{this.Url}?page={totalpage}";
+
+            if (cPage == 1) 
+            {
+                this.a1.Visible = false;
+                this.a2.Visible = false;
+                this.a3.HRef = "";
+            }
+            else if (cPage == totalpage)
+            {
+                this.a4.Visible = false;
+                this.a5.Visible = false;
+                this.a3.HRef = "";
+            }
+            else
+            {
+                int prevM1 = this.cPage = -1;
+                int prevM2 = this.cPage = -2;
+
+                this.a2.HRef = $"{this.Url}?page={prevM1}";
+                this.a1.HRef = $"{this.Url}?page={prevM2}";
+
+                int prevP1 = this.cPage = +1;
+                int prevP2 = this.cPage = +2;
+
+                this.a4.HRef = $"{this.Url}?page={prevP1}";
+                this.a5.HRef = $"{this.Url}?page={prevP2}";
+            }
         }
     }
 }
