@@ -44,6 +44,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -80,6 +83,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\AccountingNoteList.ashx.cs">
+      <DependentUpon>AccountingNoteList.ashx</DependentUpon>
+    </Compile>
     <Compile Include="UserControl\ucPager.ascx.cs">
       <DependentUpon>ucPager.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -157,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="SystemAdmin\Admin.master" />
+    <Content Include="Models\AccountingNoteList.ashx" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -167,7 +174,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
+    <Folder Include="Handler\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Accounting.dbSource\Accounting.dbSource.csproj">
@@ -177,6 +184,10 @@
     <ProjectReference Include="..\AccountingNote.Auth\AccountingNote.Auth.csproj">
       <Project>{350eb41f-696c-46af-b2ed-fe5bf0aacb61}</Project>
       <Name>AccountingNote.Auth</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AccountingNote.Models\AccountingNote.Models.csproj">
+      <Project>{dfb9b42f-6d2a-42d7-93a3-0be3d7050f1e}</Project>
+      <Name>AccountingNote.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

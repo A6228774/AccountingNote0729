@@ -6,6 +6,16 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title></title>
+                <script>
+<%--                var item = <% =this.jsint %>;
+                    var item1 = <% =this.jsint1 %>;
+
+                    var item2 = <% =this.IsMe ? "true":"false"%>;
+                    var item3 = "<% = this.txt2%>";--%>
+
+                    var obj = <%= this.stringobj%>
+                </script>
+            <script src="js1.js"></script>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -19,14 +29,14 @@
             <asp:HiddenField ID="HiddenField2" runat="server" />
 
             <asp:Label ID="Label1" runat="server" Text="Label">ABCDEFG</asp:Label>
-            <script>
-                function excu2() {
+            <button type="button" onclick="excu()">Click</button>
+
+               <%-- function excu2() {
                     var hf2 = document.getElementById("HiddenField2");
                     var val = hf2.value;
 
                     alert(val);
                 }
-                excu2()
 
                 function excu() {
                     var lbl = document.getElementById("Label1");
@@ -37,8 +47,7 @@
 
                     var hiddenfield1 = document.getElementById("HiddenField1");
                     hiddenfield1.value = "QRSTUV";
-                }
-            </script>
+                }--%>
         </div>
     </form>
 </body>
