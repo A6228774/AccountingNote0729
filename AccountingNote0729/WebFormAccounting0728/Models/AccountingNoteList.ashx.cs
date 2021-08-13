@@ -36,7 +36,6 @@ namespace WebFormAccounting0728.Models
 
             string userid = dr["ID"].ToString();
             DataTable dt = AccountingManager.GetAccountingList(userid);
-            string jsontxt = Newtonsoft.Json.JsonConvert.SerializeObject(dt);
 
             List<AccountingNoteViewModel> list = new List<AccountingNoteViewModel>();
             foreach (DataRow drAccounting in dt.Rows)
@@ -51,7 +50,7 @@ namespace WebFormAccounting0728.Models
                 };
                 list.Add(model);
             }
-
+            string jsontxt = Newtonsoft.Json.JsonConvert.SerializeObject(list);
             context.Response.ContentType = "application/json";
             context.Response.Write(jsontxt);
         }

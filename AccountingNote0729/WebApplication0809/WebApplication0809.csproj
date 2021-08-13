@@ -71,15 +71,26 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ajax0812.aspx" />
     <Content Include="callback.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="JQuery0810.aspx" />
     <Content Include="JQuery2.aspx" />
+    <Content Include="Scripts\JQuery.js" />
+    <Content Include="Scripts\js1.js" />
+    <Content Include="text.txt" />
     <Content Include="Web.config" />
     <Content Include="WebForm0811.aspx" />
     <Content Include="WebForm1.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ajax0812.aspx.cs">
+      <DependentUpon>ajax0812.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ajax0812.aspx.designer.cs">
+      <DependentUpon>ajax0812.aspx</DependentUpon>
+    </Compile>
     <Compile Include="callback.aspx.cs">
       <DependentUpon>callback.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

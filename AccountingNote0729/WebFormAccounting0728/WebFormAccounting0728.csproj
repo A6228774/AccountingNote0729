@@ -70,6 +70,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AjaxAccountingNote.aspx" />
+    <Content Include="Images\business_icon.png" />
+    <Content Include="Scripts\JQuery.js" />
     <Content Include="UserControl\ucPager.ascx" />
     <Content Include="UserControl\ucPager2.ascx" />
     <Content Include="UserList.aspx" />
@@ -83,6 +86,16 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AjaxAccountingNote.aspx.cs">
+      <DependentUpon>AjaxAccountingNote.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AjaxAccountingNote.aspx.designer.cs">
+      <DependentUpon>AjaxAccountingNote.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Handler\AccounitngNoteHandler.ashx.cs">
+      <DependentUpon>AccounitngNoteHandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Models\AccountingNoteList.ashx.cs">
       <DependentUpon>AccountingNoteList.ashx</DependentUpon>
     </Compile>
@@ -164,6 +177,7 @@
   <ItemGroup>
     <Content Include="SystemAdmin\Admin.master" />
     <Content Include="Models\AccountingNoteList.ashx" />
+    <Content Include="Handler\AccounitngNoteHandler.ashx" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -174,7 +188,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Handler\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Accounting.dbSource\Accounting.dbSource.csproj">
@@ -188,6 +201,10 @@
     <ProjectReference Include="..\AccountingNote.Models\AccountingNote.Models.csproj">
       <Project>{dfb9b42f-6d2a-42d7-93a3-0be3d7050f1e}</Project>
       <Name>AccountingNote.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebApplication0809\WebApplication0809.csproj">
+      <Project>{ad69b034-9b47-4e2f-9078-cec00820ed0a}</Project>
+      <Name>WebApplication0809</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

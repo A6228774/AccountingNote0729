@@ -15,11 +15,13 @@ namespace WebApplication0809
             string acc = context.Request.QueryString["account"];
             string pwd = context.Request.Form["password"];
 
-            if (acc == "1" && pwd == "12345678")
+            if (acc == "admin" && pwd == "12345678")
             {
                 context.Response.ContentType = "application/json";
 
                 WeatherDataModel model = WeatherDataReader.ReadData();
+                model.Name += acc;
+
                 string jsontxt = Newtonsoft.Json.JsonConvert.SerializeObject(model);
                 context.Response.Write(jsontxt);
             }

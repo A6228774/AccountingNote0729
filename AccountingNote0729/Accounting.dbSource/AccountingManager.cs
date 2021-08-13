@@ -40,12 +40,21 @@ namespace Accounting.dbSource
             if (actType != 0 && actType != 1)
                 throw new ArgumentException("ActType must be 0 or 1.");
 
+            string bodyColumnSQL = "";
+            string bodyValueSQL = "";
+
+            if (!string.IsNullOrWhiteSpace(body))
+            {
+                bodyColumnSQL = ", Body";
+                bodyValueSQL = ", @Body";
+            }
+
             string connectionstring = dbHelper.Getconnectionstring();
-            string dbCommandstring = @"INSERT INTO [AccountingNote]
+            string dbCommandstring = $@"INSERT INTO [AccountingNote]
                                                   ([UserID], [Caption], [Amount],
-                                                   [ActType], [CreateDate], [Body])
+                                                   [ActType], [CreateDate], {bodyColumnSQL})
                                        VALUES     (@userid, @caption, @amount,
-                                                   @actType, @date, @body)";
+                                                   @actType, @date, {bodyValueSQL})";
 
             List<SqlParameter> list = new List<SqlParameter>();
             list.Add(new SqlParameter("@userid", userid));
@@ -53,7 +62,9 @@ namespace Accounting.dbSource
             list.Add(new SqlParameter("@amount", amount));
             list.Add(new SqlParameter("@actType", actType));
             list.Add(new SqlParameter("@date", DateTime.Today));
-            list.Add(new SqlParameter("@body", body));
+
+            if (!string.IsNullOrWhiteSpace(body))
+                list.Add(new SqlParameter("@body", body));
 
             using (SqlConnection connection = new SqlConnection(connectionstring))
             {
@@ -95,21 +106,21 @@ namespace Accounting.dbSource
             list.Add(new SqlParameter("@actType", actType));
             list.Add(new SqlParameter("@date", DateTime.Today));
             list.Add(new SqlParameter("@body", body));
-            
-                    try
-                    {
-                        int effectRowsCnt = dbHelper.ModifyData(connectionstring, dbCommandstring, list);
 
-                        if (effectRowsCnt == 1)
-                            return true;
-                        else
-                            return false;
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.Writelog(ex);
-                        return false;
-                    }
+            try
+            {
+                int effectRowsCnt = dbHelper.ModifyData(connectionstring, dbCommandstring, list);
+
+                if (effectRowsCnt == 1)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                Logger.Writelog(ex);
+                return false;
+            }
         }
         public static DataRow GetAccounting(int id, string userid)
         {

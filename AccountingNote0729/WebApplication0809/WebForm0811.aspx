@@ -9,7 +9,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <table>
+        <table border="1">
             <tr>
                 <td>地點</td><td><asp:Literal ID="ltllocation" runat="server"></asp:Literal></td>
             </tr>
@@ -19,7 +19,6 @@
             <tr>
                 <td>降雨量</td><td><asp:Literal ID="ltlPop24" runat="server"></asp:Literal></td>
             </tr>
-
         </table>
     </form>
 </body>
