@@ -43,7 +43,7 @@ namespace WebFormAccounting0728.SysteimAdmin
 
                     if (int.TryParse(idtxt, out id))
                     {
-                        var accounting = AccountingManager.GetAccounting(id, currentUser.ID.ToGuid());
+                        var accounting = AccountingManager.GetAccounting(id, currentUser.ID);
 
                         if (accounting == null)
                         {
@@ -81,7 +81,6 @@ namespace WebFormAccounting0728.SysteimAdmin
 
             var currentUser = AuthManager.GetCurrentUser();
 
-            string userid = currentUser.ID;
             string txtacttype = this.ddlActType.SelectedValue;
             string txtamount = this.txtAmount.Text;
             string caption = this.txtCaption.Text;
@@ -94,7 +93,7 @@ namespace WebFormAccounting0728.SysteimAdmin
 
             AccountingNoteORM.DBModels.AccountingNote accounting = new AccountingNoteORM.DBModels.AccountingNote()
             {
-                UserID = userid.ToGuid(),
+                UserID = ID.ToGuid(),
                 Caption = caption,
                 Amount = amount,
                 ActType = acttype,

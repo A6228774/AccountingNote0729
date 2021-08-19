@@ -26,16 +26,16 @@ namespace WebFormAccounting0728.Models
                 return;
             }
 
-            var dr = UserInfoManager.GetUserInfoListbyAccount(account);
+            var userInfo = UserInfoManager.GetUserInfoListbyAccount_ORM(account);
 
-            if (dr == null)
+            if (userInfo == null)
             {
                 context.Response.StatusCode = 404;
                 context.Response.End();
                 return;
             }
 
-            string userid = dr["ID"].ToString();
+            string userid = userInfo.ID.ToString();
             Guid userguid = userid.ToGuid();
             List<AccountingNoteORM.DBModels.AccountingNote> sourcelist = AccountingManager.GetAccountingList(userguid);
 

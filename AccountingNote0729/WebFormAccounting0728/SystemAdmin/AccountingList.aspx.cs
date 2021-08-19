@@ -29,8 +29,7 @@ namespace WebFormAccounting0728.SysteimAdmin
                 return;
             }
 
-            //var dt = AccountingManager.GetAccountingList(currentUser.ID);
-            var list = AccountingManager.GetAccountingList(currentUser.UserGuid);
+            var list = AccountingManager.GetAccountingList(currentUser.ID);
 
             //if (dt.Rows.Count > 0)
             //{

@@ -28,16 +28,16 @@ namespace AccountingNote.Auth
                 return null;
             }
 
-            DataRow dr = UserInfoManager.GetUserInfoListbyAccount(account);
+            var userInfo = UserInfoManager.GetUserInfoListbyAccount_ORM(account);
 
-            if (dr == null)
+            if (userInfo == null)
                 return null;
 
             UserInfoModel model = new UserInfoModel();
-            model.ID = dr["ID"].ToString();
-            model.Account = dr["Account"].ToString();
-            model.Name = dr["Name"].ToString();
-            model.Email = dr["Email"].ToString();
+            model.ID = userInfo.ID;
+            model.Account = userInfo.Account;
+            model.Name = userInfo.Name;
+            model.Email = userInfo.Email;
 
             return model;
 
@@ -54,18 +54,18 @@ namespace AccountingNote.Auth
                 return false;
             }
 
-            var dr = UserInfoManager.GetUserInfoListbyAccount(account);
+            var userInfo = UserInfoManager.GetUserInfoListbyAccount_ORM(account);
 
-            if (dr == null)
+            if (userInfo == null)
             {
                 errorMsg = "Account is not exist.";
                 return false;
             }
 
-            if (string.Compare(dr["Account"].ToString(), account) == 0 &&
-                string.Compare(dr["PWD"].ToString(), pwd) == 0)
+            if (string.Compare(userInfo.Account, account) == 0 &&
+                string.Compare(userInfo.PWD, pwd) == 0)
             {
-                HttpContext.Current.Session["UserLoginInfo"] = dr["Account"].ToString();
+                HttpContext.Current.Session["UserLoginInfo"] = userInfo.Account;
                 errorMsg = string.Empty;
                 return true;
             }
