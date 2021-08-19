@@ -28,19 +28,28 @@ namespace WebFormAccounting0728.SysteimAdmin
                 return;
             }
 
-            var dt = AccountingManager.GetAccountingList(currentUser.ID);
+            //var dt = AccountingManager.GetAccountingList(currentUser.ID);
+            var list = AccountingManager.GetAccountingList(currentUser.UserGuid);
 
-            if (dt.Rows.Count > 0)
+            //if (dt.Rows.Count > 0)
+            //{
+            //    var dtPaged = this.GetPagedDataTable(dt);
+
+            //    this.GV_AccountingList.DataSource = dtPaged;
+            //    this.GV_AccountingList.DataBind();
+
+            //    this.ucPager2.TotalSize = dt.Rows.Count;
+            //    this.ucPager2.Bind();
+            //}
+            if (list.Count > 0)
             {
-                var dtPaged = this.GetPagedDataTable(dt);
-
-                this.GV_AccountingList.DataSource = dtPaged;
+                this.GV_AccountingList.DataSource = list;
                 this.GV_AccountingList.DataBind();
 
-                this.ucPager2.TotalSize = dt.Rows.Count;
+                this.ucPager2.TotalSize = list.Count;
                 this.ucPager2.Bind();
             }
-            else            
+            else
             {
                 this.GV_AccountingList.Visible = false;
                 this.plc_nodata.Visible = true;

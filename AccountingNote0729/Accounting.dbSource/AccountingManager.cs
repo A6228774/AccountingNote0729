@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using AccountingNoteORM.DBModels;
 
 namespace Accounting.dbSource
 {
@@ -32,6 +33,26 @@ namespace Accounting.dbSource
                 return null;
             }
 
+        }
+        public static List<AccountingNote> GetAccountingList(Guid userid)
+        {
+            using (ContextModel context = new ContextModel())
+            {
+                try
+                {
+                    var query = (from item in context.AccountingNote
+                                 where item.UserID == userid
+                                 select item);
+
+                    var list = query.ToList();
+                    return list;
+                }
+                catch (Exception ex)
+                {
+                    Logger.Writelog(ex);
+                    return null;
+                }
+            }
         }
         public static void CreateAccounting(string userid, string caption, int amount, int actType, string body)
         {
