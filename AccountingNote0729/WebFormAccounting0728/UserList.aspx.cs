@@ -19,7 +19,7 @@ namespace WebFormAccounting0728
             }
             var cUser = AuthManager.GetCurrentUser();
 
-            this.GridView1.DataSource = AccountingManager.GetAccountingList(cUser.ID);
+            this.GridView1.DataSource = AccountingManager.GetAccountingList(cUser.UserGuid);
             this.GridView1.DataBind();
         }
     }

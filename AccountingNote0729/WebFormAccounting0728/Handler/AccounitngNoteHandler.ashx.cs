@@ -33,7 +33,7 @@ namespace WebFormAccounting0728.Handler
                 string body = context.Request.Form["Body"];
 
                 //admin:6EBB9D69-C52F-46D8-9A35-CAB24F6F1FBC
-                string id = "6EBB9D69-C52F-46D8-9A35-CAB24F6F1FBC";
+                Guid userguid = new Guid("6EBB9D69-C52F-46D8-9A35-CAB24F6F1FBC");
 
                 if (string.IsNullOrWhiteSpace(caption) ||
                     string.IsNullOrWhiteSpace(amounttxt) ||
@@ -51,7 +51,15 @@ namespace WebFormAccounting0728.Handler
                 }
                 try
                 {
-                    AccountingManager.CreateAccounting(id, caption, tempAmount, tempActType, body);
+                    AccountingNoteORM.DBModels.AccountingNote accounting = new AccountingNoteORM.DBModels.AccountingNote()
+                    {
+                        UserID = userguid,
+                        Caption = caption,
+                        Amount = tempAmount,
+                        ActType = tempActType,
+                        Body = body
+                    };
+                    AccountingManager.CreateAccounting(accounting);
                     context.Response.ContentType = "text/plain";
                     context.Response.Write("OK.");
                 }
@@ -74,11 +82,11 @@ namespace WebFormAccounting0728.Handler
                 string idtxt = context.Request.Form["ID"];
                 int id;
                 int.TryParse(idtxt, out id);
-                string UserID = "6EBB9D69-C52F-46D8-9A35-CAB24F6F1FBC";
+                Guid userguid = new Guid("6EBB9D69-C52F-46D8-9A35-CAB24F6F1FBC");
 
-                var drAccounting = AccountingManager.GetAccounting(id, UserID);
+                var accounting = AccountingManager.GetAccounting(id, userguid);
 
-                if (drAccounting == null)
+                if (accounting == null)
                 {
                     context.Response.StatusCode = 404;
                     context.Response.ContentType = "text/plain";
@@ -89,41 +97,39 @@ namespace WebFormAccounting0728.Handler
 
                 AccountingNoteViewModel model = new AccountingNoteViewModel()
                 {
-                    ID = drAccounting["ID"].ToString(),
-                    Caption = drAccounting["Caption"].ToString(),
-                    Body = drAccounting["Body"].ToString(),
-                    CreateDate = drAccounting.Field<DateTime>("CreateDate").ToString("yyyy/MM/dd"),
-                    ActType = drAccounting.Field<int>("ActType").ToString(),
-                    Amount = drAccounting.Field<int>("Amount")
+                    ID = accounting.ID,
+                    Caption = accounting.Caption,
+                    Body = accounting.Body,
+                    Amount = accounting.Amount,
+                    ActType = (accounting.ActType == 0) ? "Expenditure" : "Income",
+                    CreateDate = accounting.CreateDate.ToString("yyyy/MM/dd")
                 };
+
                 string jsontxt = Newtonsoft.Json.JsonConvert.SerializeObject(model);
                 context.Response.ContentType = "application/json";
                 context.Response.Write(jsontxt);
             }
             else if (actionName == "list")
             {
-                string userid = "6EBB9D69-C52F-46D8-9A35-CAB24F6F1FBC";
-                DataTable dt = AccountingManager.GetAccountingList(userid);
+                Guid userguid = new Guid("6EBB9D69-C52F-46D8-9A35-CAB24F6F1FBC");
+                //DataTable dt = AccountingManager.GetAccountingList(userid);
 
-                List<AccountingNoteViewModel> list = new List<AccountingNoteViewModel>();
-                foreach (DataRow drAccounting in dt.Rows)
+                List<AccountingNoteORM.DBModels.AccountingNote> sourcelist = AccountingManager.GetAccountingList(userguid);
+
+                List<AccountingNoteViewModel> list = sourcelist.Select(obj => new AccountingNoteViewModel()
                 {
-                    AccountingNoteViewModel model = new AccountingNoteViewModel()
-                    {
-                        ID = drAccounting["ID"].ToString(),
-                        Caption = drAccounting["Caption"].ToString(),
-                        Amount = drAccounting.Field<int>("Amount"),
-                        ActType = (drAccounting.Field<int>("ActType") == 0) ? "Expenditure" : "Income",
-                        CreateDate = drAccounting.Field<DateTime>("CreateDate").ToString("yyyy/MM/dd")
-                    };
-                    list.Add(model);
-                }
+                    ID = obj.ID,
+                    Caption = obj.Caption,
+                    Amount = obj.Amount,
+                    ActType = (obj.ActType == 0) ? "Expenditure" : "Income",
+                    CreateDate = obj.CreateDate.ToString("yyyy/MM/dd")
+                }).ToList();
+
                 string jsontxt = Newtonsoft.Json.JsonConvert.SerializeObject(list);
                 context.Response.ContentType = "application/json";
                 context.Response.Write(jsontxt);
             }
         }
-
         public bool IsReusable
         {
             get
@@ -138,6 +144,5 @@ namespace WebFormAccounting0728.Handler
             context.Response.Write(msg);
             context.Response.End();
         }
-
     }
 }

@@ -102,6 +102,27 @@ namespace Accounting.dbSource
                 }
             }
         }
+        public static void CreateAccounting(AccountingNote accounting)
+        {
+            if (accounting.Amount < 0 || accounting.Amount > 1000000)
+                throw new ArgumentException("Amount must between 0 and 1,000,000.");
+            if (accounting.ActType != 0 && accounting.ActType != 1)
+                throw new ArgumentException("ActType must be 0 or 1.");
+
+            try
+            {
+                using (ContextModel context = new ContextModel())
+                {
+                    accounting.CreateDate = DateTime.Now;
+                    context.AccountingNote.Add(accounting);
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Writelog(ex);
+            }
+        }
         public static bool UpdateAccounting(int id, string userid, string caption, int amount, int actType, string body)
         {
             if (amount < 0 || amount > 1000000)
@@ -143,21 +164,51 @@ namespace Accounting.dbSource
                 return false;
             }
         }
-        public static DataRow GetAccounting(int id, string userid)
+        public static bool UpdateAccounting(AccountingNote accounting)
         {
-            string connectionstring = dbHelper.Getconnectionstring();
-            string dbCommandstring = @"SELECT [ID], [Caption], [Amount],
-                                              [ActType], [CreateDate], [Body]
-                                       FROM   [AccountingNote]
-                                       WHERE  [ID] = @id AND [UserID] = @userid";
-
-            List<SqlParameter> list = new List<SqlParameter>();
-            list.Add(new SqlParameter("@id", id));
-            list.Add(new SqlParameter("@userid", userid));
+            if (accounting.Amount < 0 || accounting.Amount > 1000000)
+                throw new ArgumentException("Amount must between 0 and 1,000,000.");
+            if (!(accounting.ActType == 0 || accounting.ActType == 1))
+                throw new ArgumentException("ActType must be 0 or 1.");
 
             try
             {
-                return dbHelper.ReadDataRow(connectionstring, dbCommandstring, list);
+                using (ContextModel context = new ContextModel())
+                {
+                    var obj = context.AccountingNote.Where(o => o.ID == accounting.ID).FirstOrDefault();
+
+                    if (obj != null)
+                    {
+                        obj.Caption = accounting.Caption;
+                        obj.Amount = accounting.Amount;
+                        obj.Body = accounting.Body;
+                        obj.ActType = accounting.ActType;
+
+                        context.SaveChanges();
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Writelog(ex);
+                return false;
+            }
+        }
+        public static AccountingNote GetAccounting(int id, Guid userid)
+        {
+            try
+            {
+                using (ContextModel context = new ContextModel())
+                {
+                    var query = (from item in context.AccountingNote
+                                 where item.UserID == userid && item.ID == id
+                                 select item);
+
+                    var obj = query.FirstOrDefault();
+                    return obj;
+                }
             }
             catch (Exception ex)
             {
@@ -183,5 +234,26 @@ namespace Accounting.dbSource
                 Logger.Writelog(ex);
             }
         }
+        public static void DeleteAccounting_ORM(int id)
+        {
+            try
+            {
+                using (ContextModel context = new ContextModel())
+                {
+                    var obj = context.AccountingNote.Where(o => o.ID == id).FirstOrDefault();
+
+                    if (obj != null)
+                    {
+                        context.AccountingNote.Remove(obj);
+                        context.SaveChanges();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Writelog(ex);
+            }
+        }
+
     }
 }

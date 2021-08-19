@@ -13,7 +13,7 @@ namespace Accounting.dbSource
     {
         public static string Getconnectionstring()
         {
-            string val = ConfigurationManager.ConnectionStrings["Default Connection"].ConnectionString;
+            string val = ConfigurationManager.ConnectionStrings["DefaultConnectionString"].ConnectionString;
             return val;
         }
         public static DataTable ReadDataTable(string connectionstring, string dbCommandstring, List<SqlParameter> list)

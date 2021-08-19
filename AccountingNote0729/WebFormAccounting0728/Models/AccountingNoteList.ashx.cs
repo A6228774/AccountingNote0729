@@ -41,7 +41,7 @@ namespace WebFormAccounting0728.Models
 
             List<AccountingNoteViewModel> list = sourcelist.Select(obj => new AccountingNoteViewModel()
             {
-                ID = obj.ID.ToString(),
+                ID = obj.ID,
                 Caption = obj.Caption,
                 Amount = obj.Amount,
                 ActType = (obj.ActType == 0) ? "Expenditure" : "Income",

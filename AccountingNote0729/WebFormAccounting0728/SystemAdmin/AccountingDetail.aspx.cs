@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using WebFormAccounting0728.Extensions;
 
 namespace WebFormAccounting0728.SysteimAdmin
 {
@@ -42,9 +43,9 @@ namespace WebFormAccounting0728.SysteimAdmin
 
                     if (int.TryParse(idtxt, out id))
                     {
-                        var drAccounting = AccountingManager.GetAccounting(id, currentUser.ID);
+                        var accounting = AccountingManager.GetAccounting(id, currentUser.ID.ToGuid());
 
-                        if (drAccounting == null)
+                        if (accounting == null)
                         {
                             this.LitMsg.Text = "Data not exist.";
                             this.Savebtn.Visible = false;
@@ -52,10 +53,10 @@ namespace WebFormAccounting0728.SysteimAdmin
                         }
                         else
                         {
-                            this.ddlActType.SelectedValue = drAccounting["ActType"].ToString();
-                            this.txtAmount.Text = drAccounting["Amount"].ToString();
-                            this.txtCaption.Text = drAccounting["Caption"].ToString();
-                            this.txtContent.Text = drAccounting["Body"].ToString();
+                            this.ddlActType.SelectedValue = accounting.ActType.ToString();
+                            this.txtAmount.Text = accounting.Amount.ToString();
+                            this.txtCaption.Text = accounting.Caption;
+                            this.txtContent.Text = accounting.Body;
                         }
                     }
                     else
@@ -91,16 +92,27 @@ namespace WebFormAccounting0728.SysteimAdmin
 
             string idtxt = this.Request.QueryString["ID"];
 
+            AccountingNoteORM.DBModels.AccountingNote accounting = new AccountingNoteORM.DBModels.AccountingNote()
+            {
+                UserID = userid.ToGuid(),
+                Caption = caption,
+                Amount = amount,
+                ActType = acttype,
+                Body = body
+            };
+
+
             if (string.IsNullOrWhiteSpace(idtxt))
             {
-                AccountingManager.CreateAccounting(userid, caption, amount, acttype, body);
+                AccountingManager.CreateAccounting(accounting);
             }
             else
             {
                 int id;
                 if (int.TryParse(idtxt, out id))
                 {
-                    AccountingManager.UpdateAccounting(id, userid, caption, amount, acttype, body);
+                    accounting.ID = id;
+                    AccountingManager.UpdateAccounting(accounting);
                 }
             }
             Response.Redirect("/SystemAdmin/AccountingList.aspx");
@@ -149,7 +161,7 @@ namespace WebFormAccounting0728.SysteimAdmin
                 int id;
                 if (int.TryParse(idtxt, out id))
                 {
-                    AccountingManager.DeleteAccounting(id);
+                    AccountingManager.DeleteAccounting_ORM(id);
                 }
             Response.Redirect("/SystemAdmin/AccountingList.aspx");
 
