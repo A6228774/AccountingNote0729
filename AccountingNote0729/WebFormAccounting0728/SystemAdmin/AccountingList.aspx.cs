@@ -7,6 +7,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Accounting.dbSource;
 using AccountingNote.Auth;
+using AccountingNoteORM.DBModels;
 
 namespace WebFormAccounting0728.SysteimAdmin
 {
@@ -43,7 +44,9 @@ namespace WebFormAccounting0728.SysteimAdmin
             //}
             if (list.Count > 0)
             {
-                this.GV_AccountingList.DataSource = list;
+                var PageList = this.GetPagedDataTable(list);
+
+                this.GV_AccountingList.DataSource = PageList;
                 this.GV_AccountingList.DataBind();
 
                 this.ucPager2.TotalSize = list.Count;
@@ -69,8 +72,10 @@ namespace WebFormAccounting0728.SysteimAdmin
             {
                 Literal ltl = row.FindControl("acttype_lt") as Literal;
 
-                var dr = row.DataItem as DataRowView;
-                int acttype = dr.Row.Field<int>("ActType");
+                //var dr = row.DataItem as DataRowView;
+                //int acttype = dr.Row.Field<int>("ActType");
+                var rowData = row.DataItem as AccountingNoteORM.DBModels.AccountingNote;
+                int acttype = rowData.ActType;
 
                 if (acttype == 0)
                     ltl.Text = "Expenditure";
@@ -94,29 +99,12 @@ namespace WebFormAccounting0728.SysteimAdmin
 
             return intPage;
         }
-        private DataTable GetPagedDataTable(DataTable dt)
+        private List<AccountingNoteORM.DBModels.AccountingNote> GetPagedDataTable(List<AccountingNoteORM.DBModels.AccountingNote> list)
         {
-            DataTable dtPaged = dt.Clone();
-
             int startindex = (this.GetcurrentPage() - 1) * 10;
             int endindex = (this.GetcurrentPage()) * 10;
 
-            if (endindex > dt.Rows.Count)
-                endindex = dt.Rows.Count;
-
-            for (var i= startindex; i < endindex; i++ )
-            {
-                DataRow dr = dt.Rows[i];
-                var drNew = dtPaged.NewRow();
-
-                foreach (DataColumn dc in dt.Columns)
-                {
-                    drNew[dc.ColumnName] = dr[dc];
-                }
-
-                dtPaged.Rows.Add(drNew);
-            }
-            return dtPaged;
+            return list.Skip(startindex).Take(10).ToList();
         }
     }
 }

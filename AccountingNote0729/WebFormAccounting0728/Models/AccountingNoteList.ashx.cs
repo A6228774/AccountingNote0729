@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
+using WebFormAccounting0728.Extensions;
 
 namespace WebFormAccounting0728.Models
 {
@@ -35,21 +36,30 @@ namespace WebFormAccounting0728.Models
             }
 
             string userid = dr["ID"].ToString();
-            DataTable dt = AccountingManager.GetAccountingList(userid);
+            Guid userguid = userid.ToGuid();
+            List<AccountingNoteORM.DBModels.AccountingNote> sourcelist = AccountingManager.GetAccountingList(userguid);
 
-            List<AccountingNoteViewModel> list = new List<AccountingNoteViewModel>();
-            foreach (DataRow drAccounting in dt.Rows)
+            List<AccountingNoteViewModel> list = sourcelist.Select(obj => new AccountingNoteViewModel()
             {
-                AccountingNoteViewModel model = new AccountingNoteViewModel()
-                {
-                    ID = drAccounting["ID"].ToString(),
-                    Caption = drAccounting["Caption"].ToString(),
-                    Amount = drAccounting.Field<int>("Amount"),
-                    ActType = (drAccounting.Field<int>("ActType") == 0) ? "Expenditure" : "Income",
-                    CreateDate = drAccounting.Field<DateTime>("CreateDate").ToString("yyyy/MM/dd")
-                };
-                list.Add(model);
-            }
+                ID = obj.ID.ToString(),
+                Caption = obj.Caption,
+                Amount = obj.Amount,
+                ActType = (obj.ActType == 0) ? "Expenditure" : "Income",
+                CreateDate = obj.CreateDate.ToString("yyyy/MM/dd")
+            }).ToList();
+
+            //foreach (DataRow drAccounting in dt.Rows)
+            //{
+            //    AccountingNoteViewModel model = new AccountingNoteViewModel()
+            //    {
+            //        ID = drAccounting["ID"].ToString(),
+            //        Caption = drAccounting["Caption"].ToString(),
+            //        Amount = drAccounting.Field<int>("Amount"),
+            //        ActType = (drAccounting.Field<int>("ActType") == 0) ? "Expenditure" : "Income",
+            //        CreateDate = drAccounting.Field<DateTime>("CreateDate").ToString("yyyy/MM/dd")
+            //    };
+            //    list.Add(model);
+            //}
             string jsontxt = Newtonsoft.Json.JsonConvert.SerializeObject(list);
             context.Response.ContentType = "application/json";
             context.Response.Write(jsontxt);
