@@ -25,6 +25,7 @@
                     Amount: <asp:TextBox ID="txtAmount" runat="server" TextMode="Number"></asp:TextBox><br />
                     Caption:<asp:TextBox ID="txtCaption" runat="server"></asp:TextBox><br />
                     Content:<asp:TextBox ID="txtContent" runat="server" TextMode="MultiLine"></asp:TextBox><br />
+                    <asp:FileUpload ID="FileCover" runat="server" /><br />
                     <asp:Button ID="Savebtn" runat="server" Text="Save" OnClick="Savebtn_Click" />
                     &nbsp;&nbsp;
                     <asp:Button ID="Deletebtn" runat="server" Text="Delete" OnClick="Deletebtn_Click" /><br />

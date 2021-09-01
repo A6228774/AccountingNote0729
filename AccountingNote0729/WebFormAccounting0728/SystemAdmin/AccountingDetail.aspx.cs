@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using WebFormAccounting0728.Extensions;
+using WebFormAccounting0728.Helpers;
 
 namespace WebFormAccounting0728.SysteimAdmin
 {
@@ -100,6 +101,14 @@ namespace WebFormAccounting0728.SysteimAdmin
                 Body = body
             };
 
+            if (this.FileCover.HasFile && Filehelper.ValidFileUpload(this.FileCover, out List<string> msglist))
+            {
+                string SaveFileName = Filehelper.GetNewFileName(this.FileCover);
+                string Filepath = System.IO.Path.Combine(this.GetSaveFolderPath(), SaveFileName);
+                this.FileCover.SaveAs(Filepath);
+
+                accounting.CoverImage = SaveFileName;
+            }
 
             if (string.IsNullOrWhiteSpace(idtxt))
             {
@@ -116,6 +125,12 @@ namespace WebFormAccounting0728.SysteimAdmin
             }
             Response.Redirect("/SystemAdmin/AccountingList.aspx");
         }
+
+        private string GetSaveFolderPath()
+        {
+            return Server.MapPath("~/FileDownload/Accounting");
+        }
+
         private bool CheckInput(out List<string> errorMsgList)
         {
             List<string> msgList = new List<string>();
@@ -157,11 +172,11 @@ namespace WebFormAccounting0728.SysteimAdmin
             if (string.IsNullOrWhiteSpace(idtxt))
                 return;
 
-                int id;
-                if (int.TryParse(idtxt, out id))
-                {
-                    AccountingManager.DeleteAccounting_ORM(id);
-                }
+            int id;
+            if (int.TryParse(idtxt, out id))
+            {
+                AccountingManager.DeleteAccounting_ORM(id);
+            }
             Response.Redirect("/SystemAdmin/AccountingList.aspx");
 
         }

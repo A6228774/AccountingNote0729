@@ -104,6 +104,7 @@
     <Compile Include="Handler\AccounitngNoteHandler.ashx.cs">
       <DependentUpon>AccounitngNoteHandler.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Filehelper.cs" />
     <Compile Include="Models\AccountingNoteList.ashx.cs">
       <DependentUpon>AccountingNoteList.ashx</DependentUpon>
     </Compile>
@@ -196,6 +197,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="FileDownload\Accounting\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Accounting.dbSource\Accounting.dbSource.csproj">
