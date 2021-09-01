@@ -32,7 +32,7 @@ namespace WebFormAccounting0728.Helpers
 
             string orginialfile = fileUpload.FileName;
             string ext = System.IO.Path.GetExtension(orginialfile);
-            string newfilename = DateTime.Now.ToString("yyyyMMddHHmmss");
+            string newfilename = DateTime.Now.ToString("yyyyMMddHHmmss") + ext;
             return newfilename;
         }
         public static bool ValidFileUpload(FileUpload fileupload, out List<string> msglist)

@@ -8,7 +8,7 @@ namespace AccountingNoteORM.DBModels
     public partial class ContextModel : DbContext
     {
         public ContextModel()
-            : base("name=DefaultConnectionString")
+            : base("name=ContextModel")
         {
         }
 

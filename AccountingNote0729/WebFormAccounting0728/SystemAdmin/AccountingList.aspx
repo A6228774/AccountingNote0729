@@ -38,6 +38,8 @@
                             <asp:BoundField DataField="CreateDate" HeaderText="CreateDate" DataFormatString="{0:yyyy/MM/dd}"/>
                             <asp:TemplateField HeaderText="Act">
                                 <ItemTemplate>
+                                    <asp:Image ID="ImgCover" runat="server" height="24px" width="24px" ImageUrl='<%# "../FileDownload/Accounting/" + Eval("CoverImage") %>' Visible='<%# Eval("CoverImage") != null %>' />
+
                                     <a href="AccountingDetail.aspx?ID=<%# Eval ("ID")%>">Edit</a>
                                 </ItemTemplate>
                             </asp:TemplateField>

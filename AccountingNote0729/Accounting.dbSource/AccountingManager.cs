@@ -72,6 +72,7 @@ namespace Accounting.dbSource
                         obj.Amount = accounting.Amount;
                         obj.Body = accounting.Body;
                         obj.ActType = accounting.ActType;
+                        obj.CoverImage = accounting.CoverImage;
 
                         context.SaveChanges();
                         return true;
